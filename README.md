@@ -1,0 +1,4 @@
+pimpl
+=====
+
+C++ Pimpl idiom
