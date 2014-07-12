@@ -6,14 +6,14 @@ namespace pimpl {
  * Smart pointer providing sole ownership.
  *
  * From the user point of view, that's a std::unique_ptr, but with dynamic
- * deleter. This means that he completeness of type T is required only when
+ * deleter. This means that the completeness of type T is required only when
  * instantiating the DynamicUniquePtr(T*) constructor; all other
  * DynamicUniquePtr members can work when the T type is incomplete yet.
  */
 template <typename T>
 class DynamicUniquePtr {
     /**
-     * Abstract class providing methods for T cloning and destruction.
+     * Abstract class providing methods for T destruction.
      *
      * The actual implementation is located inside the Traits subclass; this
      * trick is necessary in order to work when T type is incomplete yet. The
@@ -31,7 +31,7 @@ class DynamicUniquePtr {
     };
 
     /**
-     * Class with implementation of methods for T cloning and destruction.
+     * Class with implementation of methods for T destruction.
      *
      * Instantiation of this class must happen when the T is already a
      * complete type.
@@ -57,7 +57,7 @@ class DynamicUniquePtr {
     }
 
     /**
-     * Pointer to the traits providing methods for T cloning and destruction.
+     * Pointer to the traits providing methods for T destruction.
      *
      * Actually, this will always point to the static object of Traits class
      * (which, in turn, is the same among all DynamicUniquePtr's of the same
