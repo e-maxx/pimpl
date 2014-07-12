@@ -69,7 +69,7 @@ class CopyablePtr {
      * Pointer to the traits providing methods for T cloning and destruction.
      *
      * Actually, this will always point to the static object of Traits class
-     * (which is the same among all CopyablePtr's of the same T).
+     * (which, in turn, is the same among all CopyablePtr's of the same T).
      */
     TraitsBase* traits_;
     /**
@@ -88,6 +88,8 @@ public:
 
     /**
      * Construct and own a deep copy of the specified object.
+     *
+     * Provides basic exception safety guarantee.
      */
     CopyablePtr(const CopyablePtr& other)
         : traits_(other.traits_)
@@ -121,6 +123,9 @@ public:
     CopyablePtr& operator=(const CopyablePtr& other)
     {
         if (this != &other) {
+            /* Here we don't use the "canonical" implementation as it'll be
+             * sub-optimal.
+             */
             T* const newPointer = traits_->clone(*other.pointer_);
             traits_->destroy(pointer_);
             pointer_ = newPointer;
@@ -134,6 +139,9 @@ public:
     CopyablePtr& operator=(CopyablePtr&& other) noexcept
     {
         if (this != &other) {
+            /* Here we don't use the "canonical" implementation as it'll be
+             * sub-optimal.
+             */
             traits_->destroy(pointer_);
             pointer_ = other.pointer_;
             other.pointer_ = nullptr;

@@ -25,7 +25,7 @@
  */
 template <typename Impl>
 class Pimpl {
-    CopyPtr<Impl> ptr_;
+    CopyablePtr<Impl> ptr_;
 
 public:
     /**
@@ -38,23 +38,27 @@ public:
 
     /**
      * Construct and store a deep copy of the specified object.
+     *
+     * Provides basic exception safety guarantee.
      */
     Pimpl(const Pimpl&) = default;
 
     /**
      * Move from the specified object, taking ownership over the Impl object.
      */
-    Pimpl(Pimpl&&) = default;
+    Pimpl(Pimpl&&) noexcept = default;
 
     /**
      * Construct and store a deep copy of the specified object.
+     *
+     * Provides strong exception safety guarantee.
      */
     Pimpl& operator=(const Pimpl&) = default;
 
     /**
      * Move from the specified object, taking ownership over the Impl object.
      */
-    Pimpl& operator=(Pimpl&&) = default;
+    Pimpl& operator=(Pimpl&&) noexcept = default;
 
     Impl& operator*()
     {
