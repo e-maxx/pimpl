@@ -1,6 +1,5 @@
 #include "a.h"
 
-
 class A::Impl {
 public:
     std::string x;
@@ -11,7 +10,6 @@ public:
         , y(std::move(y))
     { }
 };
-
 
 A::A()
     : impl_("initial_x", "initial_y")

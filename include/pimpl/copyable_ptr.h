@@ -1,16 +1,18 @@
 #pragma once
 
+namespace pimpl {
 
 /**
  * Smart pointer providing sole ownership and deep copy semantics.
  *
  * From the user point of view, that's a std::unique_ptr with additional copy
  * constructor and copy assignment operator (that delegate to the T's copy
- * constructor and copy assignment operator correspondingly).
+ * constructor and copy assignment operator correspondingly), and with dynamic
+ * deleter.
  *
  * The completeness of type T is required only when instantiating the
- * CopyablePtr(T*) constructor; all other CopyablePtr members can work when T
- * type is incomplete yet.
+ * CopyablePtr(T*) constructor; all other CopyablePtr members can work when
+ * the T type is incomplete yet.
  */
 template <typename T>
 class CopyablePtr {
@@ -97,7 +99,7 @@ public:
     { }
 
     /**
-     * Move from another CopyablePtr, taking ownership over its held object.
+     * Move from another CopyablePtr, taking ownership over its object.
      *
      * The other CopyablePtr will be left in an unspecified state.
      */
@@ -134,7 +136,7 @@ public:
     }
 
     /**
-     * Move from another CopyablePtr, taking ownership over its held object.
+     * Move from another CopyablePtr, taking ownership over its object.
      */
     CopyablePtr& operator=(CopyablePtr&& other) noexcept
     {
@@ -169,3 +171,5 @@ public:
         return pointer_;
     }
 };
+
+} // namespace pimpl

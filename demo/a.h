@@ -1,12 +1,11 @@
 #pragma once
 
-#include "pimpl.h"
+#include <pimpl.h>
 #include <string>
-
 
 class A {
     class Impl;
-    Pimpl<Impl> impl_;
+    pimpl::CopyablePimpl<Impl> impl_;
 
 public:
     A();
